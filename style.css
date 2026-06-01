@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+header {
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+
+header h1 {
+    background-color: rgb(39, 212, 212);
+    padding: 15px;
+    width: 40%;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game {
+    text-align: center;
+    padding-top: 50px;
+}
+
+.scoreboard {
+    padding: 50px;
+    font-size: 40px;
+}
+
+.click-container {
+    padding: 5px;
+}
+
+.click-button {
+    padding: 10px;
+    width: 200px;
+    height: 200px;
+}
+
+.upgrades-button {
+    position: absolute;
+    left: -60px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 60px;
+    height: 120px;
+
+    border: none;
+    border-radius: 15px 0 0 15px;
+
+    background: rgb(39, 212, 212);
+    font-size: 30px;
+
+    cursor: pointer;
+}
+
+
+.upgrades {
+    position: fixed;
+    top: 0;
+    right: -320px;
+
+    width: 320px;
+    height: 100vh;
+
+    background: white;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+
+    transition: right 0.3s ease;
+
+    padding: 20px;
+}
+
+.upgrades.open {
+    right: 0;
+}
