@@ -8,33 +8,43 @@
 </head>
 <body>
     <header>
-            <h1>Clicker game</h1>
+            <h1>Clicker Game</h1>
     </header>
-    <main>
-        <section class="game">
+    <main class="game">
             <div class="scoreboard">
                 <p>Points: <span id="points" class="points">0</span></p>
             </div>
             <div class="click-container">
-                <img src="img/default.jpg" alt="" role="button" class="clicker-button">
+                <img src="img/default.jpg" alt="" role="button" class="clicker-button" id="clicker-button" onclick="registrarClique">
                 <p>Base Value: <span id="base-value" class="base-value">0</span></p>
                 <p>Upgrades Acquired <span id="upgrades-amount" class="upgrades-amount">0</span></p>
             </div>
-        </section>
-        <section class="upgrades">
-
-            <button class="upgrades-button" type="button">
-                <img src="img/thunder.png" alt="">
-            </button>
-
-            <h2>upgrades</h2>
-            <ul class="upgrade-list" id="list"></ul>
-        </section>
     </main>
-    <footer>
-        
-    </footer>
+    <aside class="upgrades">
 
-    <script src="script.js"></script>
+        <button class="upgrades-button" type="button">
+            ⚡
+        </button>
+        <div class="upgrade-content">
+            <h2 class="upgrade-title">UPGRADES</h2>
+            <ul class="upgrade-list" id="list"></ul>
+        </div>
+    </aside>
+    <footer class="footer">
+        <div class="settings">
+            <button class="settings-btn" id="settings-btn">
+                ⚙️
+            </button>
+        
+            <div class="settings-menu" id="settings-menu">
+                <p>Settings</p>
+                <button>Sound</button>
+                <button id="dark-mode">Dark Mode</button>
+                <button id="reset">Reset</button>
+            </div>
+        </div>
+    </footer>
+    <script src="js/variables.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

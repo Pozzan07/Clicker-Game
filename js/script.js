@@ -1,0 +1,39 @@
+// Click function
+show_points.textContent = click
+
+document.getElementById("clicker-button").addEventListener('click', function() {
+    click++;
+    show_points.textContent = click;
+    
+    localStorage.setItem('click_number', click);
+});
+
+//darkmode function
+darkmode.addEventListener('click', function() {
+    document.body.classList.toggle('dark-mode');
+});
+
+//reset function
+reset.addEventListener('click', function() {
+    localStorage.clear();
+
+    window.location.reload();
+});
+
+
+//upgrade list component  
+list.innerHTML = upgrade_itens.map(upgrade_itens => `
+        <li class="upgrade-item" role="button">
+        <img class="upgrade-img" src="${upgrade_itens.img}" alt="">
+        <h3>${upgrade_itens.title}</h3>
+        <p>${upgrade_itens.text}</p>
+        <p class="price"> ${upgrade_itens.price} <img src="${images.leeks}" alt=""> </p>
+        </li>
+  `).join("");
+
+//open upgrade section button function
+upgradeButton.addEventListener("click", () => {
+    upgrade.classList.toggle("open");
+});
+
+
