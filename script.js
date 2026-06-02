@@ -1,4 +1,4 @@
-let clicker = document.getElementsByClassName(clicker-button)
+let clicker = document.getElementsByClassName(".clicker-button")
 
 const upgrade_itens = [
     { img: "", title: "titulo 1", text: "texto 1" },
@@ -24,6 +24,8 @@ list.innerHTML = upgrade_itens.map(upgrade_itens => `
         </li>
   `).join("");
 
+
 upgradeButton.addEventListener("click", () => {
     upgrade.classList.toggle("open");
 });
+

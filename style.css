@@ -1,3 +1,11 @@
+@font-face {
+    font-family: "myfont";
+    src: url(fonts/Sarpanch-Medium.ttf);
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,6 +15,20 @@
     box-sizing: border-box;
   }
 
+:root {
+    --cyan: #86cecb;
+    --darkgreen: #137a7f;
+    --gray: #bec8d1;
+    --lightgray: D9D9D9
+    --black: #373b3e
+
+}
+
+body {
+    background-color: var(--lightgray);
+    font-family: myfont;
+}
+
 header {
     display: flex;
     justify-content: center;
@@ -14,7 +36,7 @@ header {
 }
 
 header h1 {
-    background-color: rgb(39, 212, 212);
+    background-color: var(--cyan);
     padding: 15px;
     width: 40%;
     border-radius: 15px;
@@ -64,10 +86,16 @@ header h1 {
     border: none;
     border-radius: 15px 0 0 15px;
 
-    background: rgb(39, 212, 212);
+    background: var(--cyan);
     font-size: 30px;
 
     cursor: pointer;
+}
+
+.upgrades-button img {
+    width: 50px;
+    height: 50px;
+    padding-top: 5px;
 }
 
 
@@ -102,7 +130,7 @@ header h1 {
 .upgrade-item {
     display: inline-block;
     padding: 10px 20px;
-    background-color: rgb(39, 212, 212);
+    background-color: var(--darkgreen);
     color: white;
     border-radius: 4px;
     cursor: pointer; 
