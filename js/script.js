@@ -1,3 +1,7 @@
+if (localStorage.getItem('dark_mode') === 'true') {
+    document.body.classList.add('dark-mode');
+}
+
 // Click function
 show_points.textContent = click
 
@@ -8,14 +12,18 @@ document.getElementById("clicker-button").addEventListener('click', function() {
     localStorage.setItem('click_number', click);
 });
 
-//darkmode function
-darkmode.addEventListener('click', function() {
+darkmode.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
+
+    localStorage.setItem(
+        'dark_mode',
+        document.body.classList.contains('dark-mode')
+    );
 });
 
 //reset function
 reset.addEventListener('click', function() {
-    localStorage.clear();
+    localStorage.removeItem('click_number');
 
     window.location.reload();
 });
