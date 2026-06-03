@@ -22,3 +22,6 @@ const upgrade_itens = [
 
   const upgradeButton = document.querySelector(".upgrades-button");
   const upgrade = document.querySelector(".upgrades");
+
+  const settingsButton = document.querySelector(".settings-btn")
+  const settings = document.querySelector(".footer")

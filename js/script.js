@@ -45,3 +45,7 @@ upgradeButton.addEventListener("click", () => {
 });
 
 
+settingsButton.addEventListener("click", () => {
+    settings.classList.toggle("open");
+});
+
