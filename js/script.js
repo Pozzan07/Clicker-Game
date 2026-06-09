@@ -1,5 +1,11 @@
+//darkmode verification at the beggining
 if (localStorage.getItem('dark_mode') === 'true') {
     document.body.classList.add('dark-mode');
+    if(document.body.classList.contains("dark-mode")) {
+        darkmode.src = images.darkmodeMoon
+    } else {
+        darkmode.src = images.lightmodeSun
+    }
 }
 
 // Click function
@@ -12,13 +18,23 @@ document.getElementById("clicker-button").addEventListener('click', function() {
     localStorage.setItem('click_number', click);
 });
 
+
+//darkmode function
 darkmode.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
+
+    if(document.body.classList.contains("dark-mode")) {
+        darkmode.src = images.darkmodeMoon
+    } else {
+        darkmode.src = images.lightmodeSun
+    }
 
     localStorage.setItem(
         'dark_mode',
         document.body.classList.contains('dark-mode')
     );
+
+
 });
 
 //reset function
@@ -39,12 +55,12 @@ list.innerHTML = upgrade_itens.map(upgrade_itens => `
         </li>
   `).join("");
 
-//open upgrade section button function
+//open upgrade function
 upgradeButton.addEventListener("click", () => {
     upgrade.classList.toggle("open");
 });
 
-
+//open settings function
 settingsButton.addEventListener("click", () => {
     settings.classList.toggle("open");
 });

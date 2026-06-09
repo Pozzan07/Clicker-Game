@@ -195,7 +195,7 @@ header h1 {
 }
 
 /* botão da engrenagem */
-.settings-btn {
+.open-settings-btn {
     width: 50px;
     height: 50px;
     padding: 15px;
@@ -205,20 +205,43 @@ header h1 {
     font-size: 30px;
 }
 
-.footer {
-    position: fixed;
-    left: -400px;
-    bottom: 110px;
-    margin-left: 30px ;
-    width: 300px;
-    height: 200px;
-    background: white;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-    transition: right 0.3s ease;
-    padding: 0;
+.settings-btn {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
 }
 
-.footer.open {
+.settings-menu {
+    background-color: var(--lightgray);
+    color: var(--darkgreen);
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    left: -400px;
+    bottom: 45px;
+    margin-left: 80px ;
+    padding: 15px;
+    width: 250px;
+    height: 120px;
+    border-radius: 15px 15px 15px 0px;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateX(-20px) scale(0.95);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+}
+
+.settings-img {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    padding: 10px;
+}
+
+.settings-menu.open {
     left: 0;
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: auto;
 }
 
