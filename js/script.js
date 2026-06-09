@@ -1,3 +1,11 @@
+//save function
+function saveGame() {
+    localStorage.setItem('click_number', click);
+    localStorage.setItem('clickPower', clickPower);
+    localStorage.setItem('autoClickPower', autoClickPower);
+    localStorage.setItem('upgradesAcquired', upgradesAcquired);
+}
+
 //darkmode verification at the beggining
 if (localStorage.getItem('dark_mode') === 'true') {
     document.body.classList.add('dark-mode');
@@ -8,15 +16,6 @@ if (localStorage.getItem('dark_mode') === 'true') {
     };
 }
 
-//timer
-setInterval(() => {
-    if (autoClickPower > 0) {
-        click += autoClickPower;
-        show_points.textContent = click;
-        localStorage.setItem('click_number', click);
-    }
-}, 1000);
-
 // Click function
 show_points.textContent = click;
 
@@ -24,8 +23,19 @@ document.getElementById("clicker-button").addEventListener('click', function() {
     click += clickPower;
     show_points.textContent = click;
     
-    localStorage.setItem('click_number', click);
+    saveGame();
 });
+
+//timer
+setInterval(() => {
+    if (autoClickPower > 0) {
+        click += autoClickPower;
+        show_points.textContent = click;
+        saveGame();
+    }
+}, 1000);
+
+
 
 
 //darkmode function
@@ -42,13 +52,15 @@ darkmode.addEventListener('click', () => {
         'dark_mode',
         document.body.classList.contains('dark-mode')
     );
-
-
 });
 
 //reset function
 reset.addEventListener('click', function() {
-    localStorage.removeItem('click_number');
+    localStorage.removeItem("click_number");
+    localStorage.removeItem("clickPower");
+    localStorage.removeItem("autoClickPower");
+    localStorage.removeItem("upgradesAcquired");
+    
 
     window.location.reload();
 });
@@ -73,7 +85,7 @@ settingsButton.addEventListener("click", () => {
     settings.classList.toggle("open");
 });
 
-//upgrade more clicks
+//upgrades
 list.addEventListener("click", function (e) {
     const item = e.target.closest(".upgrade-item");
     if (!item) return;
@@ -87,12 +99,16 @@ list.addEventListener("click", function (e) {
 
     if (upgrade.type === "clickPower") {
         clickPower += upgrade.value;
+        upgradesAcquired++
     }
 
     if (upgrade.type === "autoClick") {
         autoClickPower += upgrade.value;
+        upgradesAcquired++
     }
 
     show_points.textContent = click;
-    localStorage.setItem("click_number", click);
+    upgradesAcquiredText.textContent = upgradesAcquired
+    baseValue.textContent = clickPower
+    saveGame();
 });

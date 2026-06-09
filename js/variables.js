@@ -1,11 +1,38 @@
-let click = localStorage.getItem('click_number') ? parseInt(localStorage.getItem('click_number')) : 0;
-let clickPower = 1;
-let autoClickPower = 0;
+//Load Data
+let click = localStorage.getItem('click_number')
+    ? parseInt(localStorage.getItem('click_number'))
+    : 0;
+
+let clickPower = localStorage.getItem('clickPower')
+    ? parseInt(localStorage.getItem('clickPower'))
+    : 1;
+
+let autoClickPower = localStorage.getItem('autoClickPower')
+    ? parseInt(localStorage.getItem('autoClickPower'))
+    : 0;
+
+
+let upgradesAcquired = localStorage.getItem("upgradesAcquired")
+    ? parseInt(localStorage.getItem("upgradesAcquired"))
+    : 0;
+
+
+//DOM
 const show_points = document.getElementById("points");
 
-let baseValue = document.getElementById("base-value");
-let upgradesAcquireds = document.getElementById("upgrades-amount");
+const baseValue = document.getElementById("base-value");
+const upgradesAcquiredText = document.getElementById("upgrades-amount");
 
+const list = document.getElementById("list");
+
+const upgradeButton = document.querySelector(".upgrades-button");
+const upgrade = document.querySelector(".upgrades");
+
+const settingsButton = document.querySelector(".open-settings-btn");
+const settings = document.querySelector(".settings-menu");
+
+const darkmode = document.getElementById("dark-mode");
+const reset = document.getElementById("reset");
 
 const images = {
     leeks: "img/default.jpg",
@@ -14,8 +41,7 @@ const images = {
     soundToggle: "img/sound-mute.png",
 };
 
-const darkmode = document.getElementById("dark-mode");
-const reset = document.getElementById("reset");
+
 
 const upgrade_itens = [
     { id: "morePoints", type: "clickPower", value: 1, img: images.leeks, title: "More Clicks", text: "+1 point per click", price: 50 },
@@ -27,12 +53,3 @@ const upgrade_itens = [
     { img: images.leeks, type: "clickPower", value: 1, title: "titulo 7", text: "texto 7", price: 0  },
   ];
 
-  const list = document.getElementById("list");
-
-  const upgradeButton = document.querySelector(".upgrades-button");
-  const upgrade = document.querySelector(".upgrades");
-
-  const settingsButton = document.querySelector(".open-settings-btn");
-  const settings = document.querySelector(".settings-menu");
-
-  const morePoints = document.getElementById("morePoints");
