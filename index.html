@@ -16,14 +16,15 @@
             </div>
             <div class="click-container">
                 <img src="img/default.jpg" alt="" class="clicker-button" id="clicker-button">
-                <p>Base Value: <span id="base-value" class="base-value">1</span></p>
-                <p>Upgrades Acquired <span id="upgrades-amount" class="upgrades-amount">0</span></p>
+                <p>Click Value: <span id="base-value">0</span></p>
+                <p>Clicks per second: <span id="auto-click">0</span></p>
+                <p>Upgrades Acquired: <span id="upgrades-amount">0</span></p>
             </div>
     </main>
     <aside class="upgrades">
 
         <button class="upgrades-button" type="button">
-            ⚡
+            <img src="img/thunder.png" alt="">
         </button>
         <div class="upgrade-content">
             <h2 class="upgrade-title">UPGRADES</h2>
@@ -46,6 +47,21 @@
             </div>
         </div>
     </footer>
+
+    <div id="reset-menu" class="reset-menu">
+        <div class="reset-content">
+            <h2>Reset Progress</h2>
+            <p>Are you sure you want to reset your game?</p>
+            <div class="reset-answer">
+                <span id="confirm-reset" class="reset-btn">YES</span>
+                <span id="reject-reset" class="reset-btn">NO</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="overlay" class="overlay"></div>
+
     <script src="js/variables.js"></script>
     <script src="js/script.js"></script>
 </body>

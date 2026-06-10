@@ -4,6 +4,9 @@ function saveGame() {
     localStorage.setItem('clickPower', clickPower);
     localStorage.setItem('autoClickPower', autoClickPower);
     localStorage.setItem('upgradesAcquired', upgradesAcquired);
+    localStorage.setItem("upgradeLevels", JSON.stringify(
+        upgrade_itens.map(u => u.level)
+    ));
 }
 
 //darkmode verification at the beggining
@@ -26,7 +29,7 @@ document.getElementById("clicker-button").addEventListener('click', function() {
     saveGame();
 });
 
-//timer
+//timer auto click
 setInterval(() => {
     if (autoClickPower > 0) {
         click += autoClickPower;
@@ -35,8 +38,11 @@ setInterval(() => {
     }
 }, 1000);
 
-
-
+//ShowContent
+show_points.textContent = click;
+baseValue.textContent = clickPower;
+autoClickText.textContent = autoClickPower;
+upgradesAcquiredText.textContent = upgradesAcquired;
 
 //darkmode function
 darkmode.addEventListener('click', () => {
@@ -56,24 +62,84 @@ darkmode.addEventListener('click', () => {
 
 //reset function
 reset.addEventListener('click', function() {
+    resetMenu.classList.add("open");
+    overlay.classList.add("active");
+});
+
+
+resetYes.addEventListener('click', () => {
     localStorage.removeItem("click_number");
     localStorage.removeItem("clickPower");
     localStorage.removeItem("autoClickPower");
     localStorage.removeItem("upgradesAcquired");
-    
+    localStorage.removeItem("upgradeLevels");
+    localStorage.removeItem("upgrades");
 
     window.location.reload();
 });
 
-//upgrade list component  
-list.innerHTML = upgrade_itens.map(upgrade_itens => `
-        <li id="${upgrade_itens.id}" class="upgrade-item">
-        <img class="upgrade-img" src="${upgrade_itens.img}" alt="">
-        <h3>${upgrade_itens.title}</h3>
-        <p>${upgrade_itens.text}</p>
-        <p class="price"> ${upgrade_itens.price} <img src="${images.leeks}" alt=""> </p>
-        </li>
-  `).join("");
+resetNo.addEventListener('click', () => {
+    resetMenu.classList.remove("open");
+    overlay.classList.remove("active");
+});
+
+overlay.addEventListener("click", () => {
+    resetMenu.classList.remove("open");
+    overlay.classList.remove("active");
+});
+    
+
+//calculate price function
+function getPrice(upgrade) {
+    return Math.floor((upgrade.basePrice ?? 0) * Math.pow(2, upgrade.level ?? 0));
+}
+
+//upgrade list component function
+function renderUpgrade() {  
+    list.innerHTML = upgrade_itens.map(upgrade => {
+
+        const isRepeatable =
+            upgrade.maxLevel > 1 || upgrade.maxLevel === Infinity;
+
+        return `
+            <li id="${upgrade.id}" class="upgrade-item">
+                <img class="upgrade-img" src="${upgrade.img}" alt="">
+
+                <h3>
+                    ${upgrade.title}
+                    ${isRepeatable ? `Lv. ${upgrade.level + 1}` : ""}
+                </h3>
+
+                <p>${upgrade.text}</p>
+
+                <p class="price">
+                    ${getPrice(upgrade)}
+                    <img src="${images.leeks}" alt="">
+                </p>
+            </li>
+        `;
+    }).join("");
+}
+
+//load upgrade level
+const levels = JSON.parse(localStorage.getItem("upgradeLevels"));
+
+const saved = localStorage.getItem("upgradeLevels");
+
+if (saved) {
+    const levels = JSON.parse(saved);
+
+    upgrade_itens.forEach((u, i) => {
+        u.level = levels[i] || 0;
+    });
+} else {
+    upgrade_itens.forEach(u => u.level = 0);
+}
+
+//trigger list function
+renderUpgrade();
+
+
 
 //open upgrade function
 upgradeButton.addEventListener("click", () => {
@@ -93,13 +159,16 @@ list.addEventListener("click", function (e) {
     const upgrade = upgrade_itens.find(u => u.id === item.id);
     if (!upgrade) return;
 
-    if (click < upgrade.price) return;
+    const price = getPrice(upgrade);
 
-    click -= upgrade.price;
+    if (click < price) return;
+
+    click -= price;
 
     if (upgrade.type === "clickPower") {
         clickPower += upgrade.value;
         upgradesAcquired++
+        
     }
 
     if (upgrade.type === "autoClick") {
@@ -107,8 +176,15 @@ list.addEventListener("click", function (e) {
         upgradesAcquired++
     }
 
+    upgrade.level++;
+
     show_points.textContent = click;
-    upgradesAcquiredText.textContent = upgradesAcquired
-    baseValue.textContent = clickPower
+    baseValue.textContent = clickPower;
+    autoClickText.textContent = autoClickPower;
+    upgradesAcquiredText.textContent = upgradesAcquired;
+
+    renderUpgrade();
+    
+
     saveGame();
 });
