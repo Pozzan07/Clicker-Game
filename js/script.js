@@ -8,6 +8,8 @@ function saveGame() {
         upgrade_itens.map(u => u.level)));
     localStorage.setItem("criticalChance", criticalChance);
     localStorage.setItem("criticalMultiplier", criticalMultiplier);
+    localStorage.setItem('clickMultiplier', clickMultiplier)
+    localStorage.setItem('autoClickMultiplier', autoClickMultiplier)
 }
 
 //darkmode verification at the beggining
@@ -22,23 +24,44 @@ if (localStorage.getItem('dark_mode') === 'true') {
 
 //ShowContent function
 function updateUI() {
-    show_points.textContent = click;
-    baseValue.textContent = clickPower;
-    autoClickText.textContent = autoClickPower;
-    upgradesAcquiredText.textContent = upgradesAcquired;
+    show_points.textContent = formatNumber(click);;
+    show_points.title = click.toLocaleString();
+    baseValue.textContent = formatNumber(Math.round(clickPower * clickMultiplier));
+    autoClickText.textContent = formatNumber(Math.round(autoClickPower * autoClickMultiplier));
+    upgradesAcquiredText.textContent = formatNumber(upgradesAcquired);
 
+    updateUnlocks();
     renderUpgrade();
     saveGame()
 }
 
 updateUI();
 
+//points number format
+function formatNumber(num) {
+    if (num < 1000) return num.toString();
+
+    const units = ["K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp"];
+    let unitIndex = -1;
+
+    while (num >= 1000 && unitIndex < units.length - 1) {
+        num /= 1000;
+        unitIndex++;
+    }
+
+    return `${parseFloat(num.toFixed(1))}${units[unitIndex]}`;
+}
+
 //click float text function
-function createFloatingText(value, x, y) {
+function createFloatingText(value, x, y, critical = false) {
     const text = document.createElement("div");
 
     text.classList.add("floating-text");
-    text.textContent = `+${value}`;
+    text.textContent = `+${formatNumber(value)}`;
+
+    if (critical) {
+        text.classList.add("critical");
+    }
 
     text.style.left = `${x}px`;
     text.style.top = `${y}px`;
@@ -50,16 +73,24 @@ function createFloatingText(value, x, y) {
     }, 1000);
 }
 
+function updateUnlocks() {
+    upgrade_itens.forEach(upgrade => {
+        if (!upgrade.unlocked && click >= upgrade.unlock) {
+            upgrade.unlocked = true;
+        }
+    });
+}
+
 // Click function
 clickButton.addEventListener("click", (e) => {
-    let earned = clickPower;
+    let earned = Math.round(clickPower * clickMultiplier);
     let critical = false;
 
     if (
         criticalChance > 0 &&
         Math.random() < criticalChance
     ) {
-        earned *= criticalMultiplier;
+        earned *= Math.round(earned * criticalMultiplier);
         critical = true;
     }
 
@@ -87,7 +118,7 @@ clickButton.addEventListener('click', () => {
 //timer auto click
 setInterval(() => {
     if (autoClickPower > 0) {
-        click += autoClickPower;
+        click += Math.round(autoClickPower * autoClickMultiplier);
         updateUI();
     }
 }, 1000);
@@ -126,6 +157,8 @@ resetYes.addEventListener('click', () => {
     localStorage.removeItem("upgrades");
     localStorage.removeItem("criticalChance");
     localStorage.removeItem("criticalMultiplier");
+    localStorage.removeItem("clickMultiplier");
+    localStorage.removeItem("autoClickMultiplier");
 
     window.location.reload();
 });
@@ -154,7 +187,7 @@ function getPrice(upgrade) {
 //upgrade list component function
 function renderUpgrade() {  
     list.innerHTML = upgrade_itens
-    .filter(upgrade => click >= (upgrade.unlock ?? 0))
+    .filter(upgrade => upgrade.unlocked)
     .map(upgrade => {
 
         const isRepeatable =
@@ -174,8 +207,8 @@ function renderUpgrade() {
 
                 <p>${upgrade.text}</p>
 
-                <p class="price">
-                    ${getPrice(upgrade)}
+                <p class="price" title="${getPrice(upgrade)}">
+                    ${formatNumber(getPrice(upgrade))}
                     <img src="${images.leeks}" alt="">
                 </p>
             </li>
@@ -232,14 +265,24 @@ list.addEventListener("click", function (e) {
         clickPower += upgrade.value;
     }
 
+    if (upgrade.type === "clickAmp") {
+        clickMultiplier += 1.05;
+    }
+
     if (upgrade.type === "autoClick") {
         autoClickPower += upgrade.value;
+    }
+
+    if (upgrade.type === "autoAmp") {
+        autoClickMultiplier += 1.05;
     }
 
     if (upgrade.type === "criticalClick") {
         criticalChance = 0.10;
         criticalMultiplier = 5;
     }
+
+    
 
     upgradesAcquired++;
     upgrade.level++;
