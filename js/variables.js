@@ -1,7 +1,7 @@
 //Load Data
 let click = localStorage.getItem('click_number')
     ? parseInt(localStorage.getItem('click_number'))
-    : 5000000;
+    : 0;
 
 let clickPower = localStorage.getItem('clickPower')
     ? parseInt(localStorage.getItem('clickPower'))
@@ -32,6 +32,7 @@ let clickMultiplier = localStorage.getItem("clickMultiplier")
 let autoClickMultiplier = localStorage.getItem("autoClickMultiplier")
 ? parseFloat(localStorage.getItem("autoClickMultiplier"))
 : 1;
+
 
 //DOM
 const clickButton = document.querySelector(".clicker-button");
